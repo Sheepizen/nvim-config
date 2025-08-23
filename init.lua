@@ -12,14 +12,23 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load plugins
+-- LOAD PLUGINS
 require("lazy").setup({
-  -- File explorer and icons
-  { "nvim-tree/nvim-tree.lua" },
-  { "nvim-tree/nvim-web-devicons" },
-
   -- Syntax highlighting
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  --icons
+  { "nvim-tree/nvim-web-devicons", opts = {} },
+  --git blame
+  {
+    "f-person/git-blame.nvim",
+    event = "VeryLazy",
+    opts = {
+        enabled = true,  -- if you want to enable the plugin
+        message_template = " <summary> • <date> • <author> • <<sha>>", -- template for the blame message, check the Message template section for more options
+        date_format = "%m-%d-%Y %H:%M:%S", -- template for the date, check Date format section for more options
+        virtual_text_column = 1,  -- virtual text start column, check Start virtual text at column section for more options
+    }
+   },
 
   -- Fuzzy finder
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
@@ -79,8 +88,9 @@ require("lazy").setup({
   -- dependencies = { "echasnovski/mini.icons" },
   opts = {}
 },
+{ 'echasnovski/mini.nvim', version = false },
 
--- themes
+-- THEMES
 {
     "zenbones-theme/zenbones.nvim",
     -- Optionally install Lush. Allows for more configuration or extending the colorscheme
@@ -189,12 +199,12 @@ cmp.setup({
 
 -- UI plugin setup
 require("lualine").setup()
-require("nvim-tree").setup(
-  {view= {
-    width=30,
-  }
-}
-)
+-- require("nvim-tree").setup(
+--   {view= {
+--     width=30,
+--   }
+-- }
+-- )
 require("telescope").setup()
 
 -- autosave
@@ -226,7 +236,7 @@ vim.keymap.set('n', '<leader>l',':tabnext<CR>', { noremap = true, silent = true 
 vim.keymap.set('n', '<leader>h',':tabprevious<CR>', { noremap = true, silent = true })
 --close nvim and save all
 vim.keymap.set('n', '<Leader>wq',':wqa<CR>', { noremap = true, silent = true })
---nvim tree
+vim.keymap.set('n', '<Leader>q',':q<CR>', { noremap = true, silent = true })
 
 --colorscheme
  vim.cmd("colorscheme onenord")
