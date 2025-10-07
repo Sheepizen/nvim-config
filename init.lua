@@ -1,4 +1,6 @@
 vim.g.mapleader = " "
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 -- Bootstrap lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -16,6 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- Syntax highlighting
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+
+  { "nvim-tree/nvim-tree.lua" },
+
   --icons
   { "nvim-tree/nvim-web-devicons", opts = {} },
   --git blame
@@ -199,12 +204,15 @@ cmp.setup({
 
 -- UI plugin setup
 require("lualine").setup()
--- require("nvim-tree").setup(
---   {view= {
---     width=30,
---   }
--- }
--- )
+-- NVIM-tree 
+require("nvim-tree").setup(
+  {view= {
+    width=30,
+  }
+}
+)
+
+--Telescope finding files
 require("telescope").setup()
 
 -- autosave
@@ -225,7 +233,6 @@ vim.keymap.set('n', '<Esc><Esc>', ':nohl<CR>')
 vim.keymap.set('n', '<leader>ff', function() require('fzf-lua').files() end)
 vim.keymap.set('n', '<leader>fg', function() require('fzf-lua').live_grep() end)
 vim.keymap.set('n', '<leader>fb', function() require('fzf-lua').buffers() end)
-vim.keymap.set('n', '<leader>fp', function() require('fzf-lua').files({cwd="~/Projects/"}) end)
  --cycle through buffers
 vim.keymap.set('n', '<A-l>',':bnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<A-h>',':bprevious<CR>', { noremap = true, silent = true })
@@ -234,11 +241,12 @@ vim.keymap.set('n', '<leader>t',':tabnew<CR>', { noremap = true, silent = true }
 -- cycle through tabs
 vim.keymap.set('n', '<leader>l',':tabnext<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>h',':tabprevious<CR>', { noremap = true, silent = true })
+--open and close file explorer
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 --close nvim and save all
 vim.keymap.set('n', '<Leader>wq',':wqa<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>q',':q<CR>', { noremap = true, silent = true })
 
 --colorscheme
  vim.cmd("colorscheme onenord")
-
 
